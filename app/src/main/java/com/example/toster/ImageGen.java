@@ -1331,10 +1331,10 @@ public class ImageGen extends Generator {
         }
 
     }
-    public static void main(){
+    public static void main(String[] d){
 
 
-        String[] d = gen();
+
         for(int i = 0; i < d.length;i++){
             scrambl(d[i]);
         }

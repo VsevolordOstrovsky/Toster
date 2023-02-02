@@ -4,12 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <corners android:radius="10dp" />
+
 
     <!-- This is the border color -->
-    <stroke android:width="2dp" android:color="#03A9F4" />
+    <stroke android:width="2dp" android:color="#0288D1" />
 
     <!--- This is the background color -->
-    <solid android:color="#03A9F4" />
+    <solid android:color="#0288D1" />
 
 </shape>
