@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_statisticFragment_to_cubeFragment"
             app:destination="@id/cubeFragment" />
+        <action
+            android:id="@+id/action_statisticFragment_to_cubeThreeStatisticFragment"
+            app:destination="@id/cubeThreeStatisticFragment" />
     </fragment>
     <fragment
         android:id="@+id/cubeFragment"
@@ -30,5 +33,21 @@
         android:id="@+id/cubeTreeFragment"
         android:name="com.example.toster.cubeThreeFragment"
         android:label="fragment_cube_tree"
-        tools:layout="@layout/fragment_cube_three" />
+        tools:layout="@layout/fragment_cube_three" >
+        <action
+            android:id="@+id/action_cubeTreeFragment_to_cubeThreeStatisticFragment"
+            app:destination="@id/cubeThreeStatisticFragment" />
+        <action
+            android:id="@+id/action_cubeTreeFragment_to_cubeFragment"
+            app:destination="@id/cubeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cubeThreeStatisticFragment"
+        android:name="com.example.toster.cubeThreeStatisticFragment"
+        android:label="fragment_cube_three_statistic"
+        tools:layout="@layout/fragment_cube_three_statistic" >
+        <action
+            android:id="@+id/action_cubeThreeStatisticFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+    </fragment>
 </navigation>

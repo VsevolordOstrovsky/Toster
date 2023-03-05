@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +69,16 @@ public class cubeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cube, container, false);
         Button btnScramble = view.findViewById(R.id.buttonScramble);
         Button btnResult = view.findViewById(R.id.buttonResult);
+        Button cubeTwo = view.findViewById(R.id.cube_2);
+        Button cubeThree = view.findViewById(R.id.cube_3);
+        ImageButton closeMenu = view.findViewById(R.id.closeMenu);
+
+
+        ImageButton openMenu = view.findViewById(R.id.openMenu);
+
+        ScrollView menuScroll = view.findViewById(R.id.menuScroll);
+        Bundle bundle = new Bundle();
+
         ImageGen imageGen = new ImageGen();
         View v = new MyCanvas(view.getContext());
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
@@ -92,8 +104,26 @@ public class cubeFragment extends Fragment {
         btnResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
+
                 Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_statisticFragment,bundle);
+            }
+        });
+        openMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(0);
+            }
+        });
+        closeMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(-100000);
+            }
+        });
+        cubeThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_cubeTreeFragment);
             }
         });
 
