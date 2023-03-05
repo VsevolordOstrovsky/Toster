@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:src="@drawable/blue" />
+            android:src="@drawable/menu" />
 
         <TextView
             android:id="@+id/textViewCubeName"
@@ -79,12 +79,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
     <ScrollView
         android:id="@+id/menuScroll"
         android:layout_width="216dp"
         android:layout_height="match_parent"
         android:layout_marginStart="-217dp"
-        android:background="#BF1111"
+        android:background="#00BCD4"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp">
 
@@ -111,19 +112,21 @@
                     android:id="@+id/closeMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/blue" />
+                    android:src="@drawable/close" />
             </TableRow>
 
             <Button
                 android:id="@+id/cube_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#0097A7"
                 android:text="2x2" />
 
             <Button
                 android:id="@+id/cube_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#0097A7"
                 android:text="3x3" />
         </LinearLayout>
     </ScrollView>
