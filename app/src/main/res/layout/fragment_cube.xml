@@ -7,20 +7,6 @@
     android:background="#B3E5FC"
     tools:context=".cubeFragment">
 
-    <Button
-        android:id="@+id/buttonScramble"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:backgroundTint="#03A9F4"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="scramble"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -65,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
@@ -85,4 +72,38 @@
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="623dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="0dp">
+
+        <Button
+            android:id="@+id/buttonScramble"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:backgroundTint="#03A9F4"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Scramble"
+            android:textSize="24sp" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="#BF1111"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

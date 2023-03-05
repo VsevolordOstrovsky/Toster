@@ -71,9 +71,11 @@ public class cubeFragment extends Fragment {
         View v = new MyCanvas(view.getContext());
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
+        imageGen.strok = "";
         ImageView iv = (ImageView) view.findViewById(R.id.imageView3);
         v.draw(canvas);
         iv.setImageBitmap(bitmap);
+
         btnScramble.setText(imageGen.strok);
 
         btnScramble.setOnClickListener(new View.OnClickListener() {
