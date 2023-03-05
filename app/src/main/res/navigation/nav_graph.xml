@@ -22,5 +22,13 @@
         <action
             android:id="@+id/action_cubeFragment_to_statisticFragment"
             app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_cubeFragment_to_cubeTreeFragment"
+            app:destination="@id/cubeTreeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cubeTreeFragment"
+        android:name="com.example.toster.cubeThreeFragment"
+        android:label="fragment_cube_tree"
+        tools:layout="@layout/fragment_cube_three" />
 </navigation>
