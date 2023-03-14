@@ -1,5 +1,6 @@
 package com.example.toster;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,15 +15,71 @@ public class MyCanvas extends View{
     public int height = 120;
     public int[] color = {/*orange*/Color.argb(255,255,165,0),Color.GREEN,Color.RED,Color.BLUE,Color.WHITE,Color.YELLOW};
     int specColor = Color.argb(0,0,0,0);
+    public static int key_Cube = 0;
+    // control cube rotation
+
 
 
     public MyCanvas(Context context) {
         super(context);
-    }
-    protected void onDraw(Canvas canvas){
-        Paint paint = new Paint();
 
-        String[] d = generator.gen();
+    }
+
+    @SuppressLint("DrawAllocation")
+    protected void onDraw(Canvas canvas){
+
+        Paint paint = new Paint();
+        int chil = 0;
+        String[][] control = new String[][]{
+                //        0   1   2   3   4   5   6   7
+                /*0*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                /*1*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                /*2*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                /*3*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                /*4*/   {" ", " ", "Y", "Y", " ", " ", " ", " "},
+                /*5*/   {" ", " ", "Y", "Y", " ", " ", " ", " "}
+        };
+        switch (key_Cube){
+            case 2:
+                chil = 12;
+                imageGen.a1 = new String[][]{
+                        //        0   1   2   3   4   5   6   7
+                        /*0*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                        /*1*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                        /*2*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                        /*3*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                        /*4*/   {" ", " ", "Y", "Y", " ", " ", " ", " "},
+                        /*5*/   {" ", " ", "Y", "Y", " ", " ", " ", " "}
+                };
+                control = new String[][]{
+                        //        0   1   2   3   4   5   6   7
+                        /*0*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                        /*1*/   {" ", " ", "W", "W", " ", " ", " ", " "},
+                        /*2*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                        /*3*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
+                        /*4*/   {" ", " ", "Y", "Y", " ", " ", " ", " "},
+                        /*5*/   {" ", " ", "Y", "Y", " ", " ", " ", " "}
+                };
+                break;
+            case 3:
+                chil = 21;
+                control = new String[][]{
+                    //        0     1     2     3     4     5     6      7     8    9     10    11
+                    /*0*/   {" ", " ", " ", "W", "W", "W", " ", " ", " ", " ", " ", " "},
+                    /*1*/   {" ", " ", " ", "W", "W", "W", " ", " ", " ", " ", " ", " "},
+                    /*2*/   {" ", " ", " ", "W", "W", "W", " ", " ", " ", " ", " ", " "},
+                    /*3*/   {"O", "O", "O", "G", "G", "G", "R", "R", "R", "B", "B", "B"},
+                    /*4*/   {"O", "O", "O", "G", "G", "G", "R", "R", "R", "B", "B", "B"},
+                    /*5*/   {"O", "O", "O", "G", "G", "G", "R", "R", "R", "B", "B", "B"},
+                    /*6*/   {" ", " ", " ", "Y", "Y", "Y", " ", " ", " ", " ", " ", " "},
+                    /*7*/   {" ", " ", " ", "Y", "Y", "Y", " ", " ", " ", " ", " ", " "},
+                    /*8*/   {" ", " ", " ", "Y", "Y", "Y", " ", " ", " ", " ", " ", " "}
+            };
+
+                break;
+        }
+
+        String[] d = generator.gen(chil);
         imageGen.main(d);
         String[][] im = imageGen.a1;
 
@@ -101,14 +158,6 @@ public class MyCanvas extends View{
             top += kTop;
             bottom += kTop;
         }
-        imageGen.a1 = new String[][]{
-                //        0   1   2   3   4   5   6   7
-                /*0*/   {" ", " ", "W", "W", " ", " ", " ", " "},
-                /*1*/   {" ", " ", "W", "W", " ", " ", " ", " "},
-                /*2*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
-                /*3*/   {"O", "O", "G", "G", "R", "R", "B", "B"},
-                /*4*/   {" ", " ", "Y", "Y", " ", " ", " ", " "},
-                /*5*/   {" ", " ", "Y", "Y", " ", " ", " ", " "}
-        };
+        imageGen.a1 = control;
     }
 }

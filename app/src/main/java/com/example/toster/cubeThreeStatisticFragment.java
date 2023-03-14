@@ -3,10 +3,14 @@ package com.example.toster;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +62,44 @@ public class cubeThreeStatisticFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cube_three_statistic, container, false);
+        View view = inflater.inflate(R.layout.fragment_cube_three_statistic, container, false);
+
+        Button btnStopWatch = view.findViewById(R.id.buttonStopWathch);
+        Button btnResult = view.findViewById(R.id.buttonResult);
+        Button cubeTwo = view.findViewById(R.id.cube_2);
+        Button cubeThree = view.findViewById(R.id.cube_3);
+        ImageButton closeMenu = view.findViewById(R.id.closeMenu);
+
+
+        ImageButton openMenu = view.findViewById(R.id.openMenu);
+
+        ScrollView menuScroll = view.findViewById(R.id.menuScroll);
+        Bundle bundle = new Bundle();
+
+        btnStopWatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ImageGen imageGen = new ImageGen();
+                imageGen.strok = "";
+                Navigation.findNavController(view).navigate(R.id.action_cubeThreeStatisticFragment_to_cubeTreeFragment,bundle);
+            }
+        });
+        openMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(0);
+            }
+        });
+        closeMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(-1000000);
+            }
+        });
+
+
+
+        return view;
     }
 }

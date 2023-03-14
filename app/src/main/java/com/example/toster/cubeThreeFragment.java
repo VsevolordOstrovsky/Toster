@@ -1,12 +1,24 @@
 package com.example.toster;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +70,90 @@ public class cubeThreeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cube_three, container, false);
+        View view = inflater.inflate(R.layout.fragment_cube_three, container, false);
+        int key = 3;
+
+
+
+        Button btnScramble = view.findViewById(R.id.buttonScramble);
+        Button cubeTwo = view.findViewById(R.id.cube_2);
+        Button cubeThree = view.findViewById(R.id.cube_3);
+        Button btnResult = view.findViewById(R.id.buttonResult);
+        ImageButton closeMenu = view.findViewById(R.id.closeMenu);
+
+
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledFuture<?> TimerFuture = null;
+        final int[] cklic = {0};
+
+
+        Handler handler = new Handler();
+        final int[] seconds = {0};
+        cubeFragment cubeFragment = new cubeFragment();
+
+
+
+        ImageButton openMenu = view.findViewById(R.id.openMenu);
+
+        ScrollView menuScroll = view.findViewById(R.id.menuScroll);
+        Bundle bundle = new Bundle();
+
+        ImageGen imageGen = new ImageGen();
+        MyThread myThread = new MyThread();
+        StopWatch stopWatch = new StopWatch();
+        View v = new MyCanvas(view.getContext());
+        MyCanvas myCanvas = new MyCanvas(view.getContext());
+        myCanvas.key_Cube = 3;
+        Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        imageGen.strok = "";
+
+
+        ImageView iv = (ImageView) view.findViewById(R.id.imageView3);
+        v.draw(canvas);
+        iv.setImageBitmap(bitmap);
+
+        btnScramble.setText(imageGen.strok);
+
+        openMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(0);
+            }
+        });
+
+        closeMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuScroll.setX(-10000000);
+            }
+        });
+        cubeTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeFragment);
+            }
+        });
+
+        btnScramble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageGen.strok = "";
+                v.draw(canvas);
+                iv.setImageBitmap(bitmap);
+                btnScramble.setText(imageGen.strok);
+            }
+        });
+        btnResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeThreeStatisticFragment);
+            }
+        });
+
+
+
+
+        return view;
     }
 }

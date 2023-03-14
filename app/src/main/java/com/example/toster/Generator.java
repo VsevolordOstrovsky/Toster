@@ -5,7 +5,7 @@ import android.provider.ContactsContract;
 public class Generator {
 
 
-    public static String[] gen(){
+    public static String[] gen(int chil){
         String[] right = {"R","R2","R'"};
         String[] left = {"L","L2","L'"};
         String[] up = {"U","U2","U'"};
@@ -13,10 +13,12 @@ public class Generator {
         String[] front = {"F","F2","F'"};
         String[] back = {"B","B2","B'"};
         String[][] wasd = {right,left,up,doun,front,back};
-        String[] f = new String[12];
+        String[] f = new String[chil];
         int a1 = 100000;
         int j = 0;
-        for(int i = 0; i < 12; i++) {
+
+
+        for(int i = 0; i < chil; i++) {
             int a = random(6, 0);
             int b = random(3, 0);
             if (a1 == a) {
