@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B3E5FC"
+    android:screenOrientation="landscape"
+    android:orientation="vertical"
     tools:context=".cubeThreeStatisticFragment">
     <LinearLayout
         android:id="@+id/linearLayout2"

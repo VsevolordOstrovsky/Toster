@@ -1,5 +1,6 @@
 package com.example.toster;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -102,7 +103,7 @@ public class cubeFragment extends Fragment {
         Bundle bundle = new Bundle();
 
         ImageGen imageGen = new ImageGen();
-        MyThread myThread = new MyThread();
+
         StopWatch stopWatch = new StopWatch();
         View v = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
@@ -155,37 +156,28 @@ public class cubeFragment extends Fragment {
             }
         });
         cubelayout.setOnClickListener(new View.OnClickListener() {
-            private  void sec(){
-                int hours = seconds[0] / 60000;
-                int minutes = (seconds[0] % 60000) / 1000;
-                int secs = seconds[0] % 1000;
-                String time
-                        = String
-                        .format(Locale.getDefault(),
-                                "%d:%02d:%02d", hours,
-                                minutes, secs);
-                seconds[0]++;
-                text.setText(time);
-            }
+             int click = 0;
+
+
             @Override
             public void onClick(View view) {
 
-                if (cklic[0] == 0) {
 
 
-                    executorService.scheduleAtFixedRate(new Runnable() {
-                        @Override
-                        public void run() {
-                            sec();
-                        }
-                    }, 0, 1, TimeUnit.MILLISECONDS);
-                    cklic[0]++;
+                if (click == 0){
+                    click = 1;
 
-                    
+
+
+
+
                 }else{
-                    cklic[0] = 0;
-                    System.out.println("sdfsdfsdf");
+                    click = 0;
+
+
+
                 }
+
 
             }
 
@@ -193,6 +185,11 @@ public class cubeFragment extends Fragment {
 
 
 
+
+
+
+
         return view;
     }
+
 }

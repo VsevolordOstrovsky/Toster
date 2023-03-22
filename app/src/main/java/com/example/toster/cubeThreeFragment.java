@@ -1,9 +1,11 @@
 package com.example.toster;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -12,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -71,6 +75,7 @@ public class cubeThreeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cube_three, container, false);
+
         int key = 3;
 
 
@@ -94,26 +99,29 @@ public class cubeThreeFragment extends Fragment {
 
 
         ImageButton openMenu = view.findViewById(R.id.openMenu);
+        ConstraintLayout cubeThreeLayout = view.findViewById(R.id.cubeTreeLayout);
+        FrameLayout frameScramble = view.findViewById(R.id.frameLayoutScramble);
+        ImageView imageView3 = view.findViewById(R.id.imageView3);
 
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
         Bundle bundle = new Bundle();
 
-        ImageGen imageGen = new ImageGen();
-        MyThread myThread = new MyThread();
+        ImageGenThree imageGenThree = new ImageGenThree();
+
         StopWatch stopWatch = new StopWatch();
         View v = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
         myCanvas.key_Cube = 3;
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        imageGen.strok = "";
-
-
+        imageGenThree.strok = "";
         ImageView iv = (ImageView) view.findViewById(R.id.imageView3);
         v.draw(canvas);
         iv.setImageBitmap(bitmap);
 
-        btnScramble.setText(imageGen.strok);
+        btnScramble.setText(imageGenThree.strok);
+
+
 
         openMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,16 +146,41 @@ public class cubeThreeFragment extends Fragment {
         btnScramble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageGen.strok = "";
+                imageGenThree.strok = "";
                 v.draw(canvas);
                 iv.setImageBitmap(bitmap);
-                btnScramble.setText(imageGen.strok);
+                btnScramble.setText(imageGenThree.strok);
             }
         });
         btnResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeThreeStatisticFragment);
+            }
+        });
+        cubeThreeLayout.setOnClickListener(new View.OnClickListener() {
+
+            int click = 0;
+            @Override
+            public void onClick(View view) {
+                if (click == 0){
+                    click = 1;
+                    imageView3.setX(100000);
+
+
+
+
+
+
+
+                }else{
+                    click = 0;
+                    int width = canvas.getWidth();
+                    imageView3.setX(0);
+
+
+
+                }
             }
         });
 
