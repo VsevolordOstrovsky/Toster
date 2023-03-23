@@ -147,7 +147,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView123456"
+        android:id="@+id/stopwatch"
         android:layout_width="206dp"
         android:layout_height="72dp"
         android:layout_marginTop="116dp"

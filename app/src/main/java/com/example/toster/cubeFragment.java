@@ -1,6 +1,6 @@
 package com.example.toster;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,9 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,13 +72,19 @@ public class cubeFragment extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         int key = 2;
 
         View view = inflater.inflate(R.layout.fragment_cube, container, false);
-        TextView text = view.findViewById(R.id.textView123456);
+
+
+
+
 
         Button btnScramble = view.findViewById(R.id.buttonScramble);
         Button btnResult = view.findViewById(R.id.buttonResult);
@@ -93,8 +98,8 @@ public class cubeFragment extends Fragment {
         final int[] cklic = {0};
 
 
-        Handler handler = new Handler();
-        final int[] seconds = {0};
+
+
 
 
         ImageButton openMenu = view.findViewById(R.id.openMenu);
@@ -105,6 +110,26 @@ public class cubeFragment extends Fragment {
         ImageGen imageGen = new ImageGen();
 
         StopWatch stopWatch = new StopWatch();
+
+        stopWatch.timeView = view.findViewById(R.id.stopwatch);
+        if (savedInstanceState != null) {
+            // Get the previous state of the stopwatch
+            // if the activity has been
+            // destroyed and recreated.
+            stopWatch.seconds
+                    = savedInstanceState
+                    .getInt("seconds");
+            stopWatch.running
+                    = savedInstanceState
+                    .getBoolean("running");
+            stopWatch.wasRunning
+                    = savedInstanceState
+                    .getBoolean("wasRunning");
+        }
+        stopWatch.runTimer();
+
+
+
         View v = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
         myCanvas.key_Cube = 2;
@@ -115,7 +140,9 @@ public class cubeFragment extends Fragment {
         v.draw(canvas);
         iv.setImageBitmap(bitmap);
 
+
         btnScramble.setText(imageGen.strok);
+
 
         btnScramble.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +182,7 @@ public class cubeFragment extends Fragment {
 
             }
         });
+
         cubelayout.setOnClickListener(new View.OnClickListener() {
              int click = 0;
 
@@ -166,15 +194,17 @@ public class cubeFragment extends Fragment {
 
                 if (click == 0){
                     click = 1;
+                    stopWatch.running = true;
+                    stopWatch.flag = true;
 
-
-
-
+                    Log.i("RRR","1");
 
                 }else{
                     click = 0;
+                    stopWatch.running = false;
+                    stopWatch.flag = false;
 
-
+                    Log.i("RRR","0");
 
                 }
 
@@ -189,7 +219,10 @@ public class cubeFragment extends Fragment {
 
 
 
+
         return view;
     }
+
+
 
 }
