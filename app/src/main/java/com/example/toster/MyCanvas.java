@@ -38,9 +38,9 @@ public class MyCanvas extends View{
         String[][] control = {{"O"}};
         switch (key_Cube){
             case 2:
-                width = 160;
+
                 width_Rect = 8;
-                height = 120;
+
                 height_Rect = 6;
                 chil = 12;
 
@@ -67,9 +67,9 @@ public class MyCanvas extends View{
                 };
                 break;
             case 3:
-                width = 240;
+
                 width_Rect = 12;
-                height = 180;
+
                 height_Rect = 9;
                 chil = 21;
                 control = new String[][]{

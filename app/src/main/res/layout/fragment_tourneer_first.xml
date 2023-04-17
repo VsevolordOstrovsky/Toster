@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/statisticActivity"
+    android:id="@+id/con"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B3E5FC"
-    android:screenOrientation="landscape"
     android:orientation="vertical"
-    tools:context=".statisticFragment">
+
+    android:screenOrientation="landscape"
+    tools:context=".tour.TourneerFirstFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -32,55 +33,11 @@
             android:layout_height="42dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Статистика: 2x2"
+            android:text="@string/tour"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Button
-            android:id="@+id/buttonStopWathch"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#0288D1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="секундомер"
-            app:cornerRadius="0dp" />
-
-        <Button
-            android:id="@+id/buttonResult"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#0288D1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="результаты"
-            app:cornerRadius="0dp" />
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="618dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="1dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
     <ScrollView
         android:id="@+id/menuScroll"
@@ -106,7 +63,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Меню"
+                    android:text="@string/menu"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -122,20 +79,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0097A7"
-                android:text="2x2" />
+                android:text="@string/_2x2" />
 
             <Button
                 android:id="@+id/cube_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0097A7"
-                android:text="3x3" />
+                android:text="@string/_3x3" />
+
             <Button
                 android:id="@+id/tourneer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0097A7"
-                android:text="Турнир" />
+                android:text="@string/tour1" />
         </LinearLayout>
     </ScrollView>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="281dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="148dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/colChel1"
+        android:layout_width="150dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:text="количество человек:"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/colChel2"
+        android:layout_width="10dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="2"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toEndOf="@+id/colChel1" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="164dp"
+        android:layout_height="131dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginBottom="361dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="408dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

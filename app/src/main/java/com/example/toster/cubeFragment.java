@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,14 +74,60 @@ public class cubeFragment extends Fragment {
         }
     }
 
+    private final int start = 0, stop = 1, refresh = 2;
+
+    private final StopWatch stopWatch = new StopWatch();
+    private TextView stopw;
+
+    Handler timerHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case start:
+                    if (stopWatch.isRunning())
+                        break;
+                    try {
+                        Thread.sleep(120);
+                    } catch (InterruptedException e) {
+                        Log.d("RRR",e.fillInStackTrace().toString());
+                    }
+                    stopWatch.start();
+                    timerHandler.sendEmptyMessage(refresh);
+                    break;
+                case refresh:
+                    stopw.setText(String.format("%s", format(stopWatch.getElapsedTime())));
+                    timerHandler.sendEmptyMessageDelayed(refresh, 1);
+                    break;
+                case stop:
+                    timerHandler.removeMessages(refresh);
+                    if (!stopWatch.isRunning())
+                        break;
+                    stopWatch.stop();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    private boolean justStopped = false, isFingerDown = false;
+    private long readyTime;
+
+    private String format(long milliseconds) {
+        String time = String.format("%1$TM:%1$TS:%1$TL", milliseconds);
+        return time.substring(0, time.length() - 1);
+    }
 
 
 
+    private static boolean clickFlag = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         int key = 2;
+
 
         View view = inflater.inflate(R.layout.fragment_cube, container, false);
 
@@ -90,8 +139,10 @@ public class cubeFragment extends Fragment {
         Button btnResult = view.findViewById(R.id.buttonResult);
         Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
+        Button btnTour = view.findViewById(R.id.tourneer);
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
         ConstraintLayout cubelayout = view.findViewById(R.id.cubelayout);
+
 
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         ScheduledFuture<?> TimerFuture = null;
@@ -109,48 +160,40 @@ public class cubeFragment extends Fragment {
 
         ImageGen imageGen = new ImageGen();
 
-        StopWatch stopWatch = new StopWatch();
 
-        stopWatch.timeView = view.findViewById(R.id.stopwatch);
-        if (savedInstanceState != null) {
-            // Get the previous state of the stopwatch
-            // if the activity has been
-            // destroyed and recreated.
-            stopWatch.seconds
-                    = savedInstanceState
-                    .getInt("seconds");
-            stopWatch.running
-                    = savedInstanceState
-                    .getBoolean("running");
-            stopWatch.wasRunning
-                    = savedInstanceState
-                    .getBoolean("wasRunning");
-        }
-        stopWatch.runTimer();
+        stopw = view.findViewById(R.id.stopwatch);
 
 
 
-        View v = new MyCanvas(view.getContext());
+
+
+        View vin = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
         myCanvas.key_Cube = 2;
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         imageGen.strok = "";
         ImageView iv = (ImageView) view.findViewById(R.id.imageView2);
-        v.draw(canvas);
+        vin.draw(canvas);
         iv.setImageBitmap(bitmap);
 
 
         btnScramble.setText(imageGen.strok);
+        clickFlag = true;
+
+
+
 
 
         btnScramble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageGen.strok = "";
-                v.draw(canvas);
-                iv.setImageBitmap(bitmap);
-                btnScramble.setText(imageGen.strok);
+                if(clickFlag == true) {
+                    imageGen.strok = "";
+                    vin.draw(canvas);
+                    iv.setImageBitmap(bitmap);
+                    btnScramble.setText(imageGen.strok);
+                }
 
             }
         });
@@ -182,43 +225,42 @@ public class cubeFragment extends Fragment {
 
             }
         });
-
-        cubelayout.setOnClickListener(new View.OnClickListener() {
-             int click = 0;
-
-
+        btnTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_tourneerFirstFragment);
+            }
+        });
+
+        cubelayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isFingerDown) {
+                    isFingerDown = true;
+                    if (stopWatch.isRunning()) {
+                        timerHandler.sendEmptyMessage(stop);
+                        justStopped = true;
+                        clickFlag = true;
+                        imageGen.strok = "";
+                        vin.draw(canvas);
+                        iv.setImageBitmap(bitmap);
+                        btnScramble.setText(imageGen.strok);
 
 
-
-                if (click == 0){
-                    click = 1;
-                    stopWatch.running = true;
-                    stopWatch.flag = true;
-
-                    Log.i("RRR","1");
-
-                }else{
-                    click = 0;
-                    stopWatch.running = false;
-                    stopWatch.flag = false;
-
-                    Log.i("RRR","0");
-
+                    }
+                    readyTime = System.currentTimeMillis();
+                    justStopped = false;
+                } else {
+                    isFingerDown = false;
+                    if (!justStopped && System.currentTimeMillis() - readyTime > 1000) {
+                        timerHandler.sendEmptyMessage(start);
+                        clickFlag = false;
+                    }
                 }
-
 
             }
 
         });
-
-
-
-
-
-
-
 
         return view;
     }

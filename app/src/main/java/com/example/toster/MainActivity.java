@@ -1,23 +1,16 @@
 package com.example.toster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.util.DisplayMetrics;
 
 public class MainActivity extends AppCompatActivity{
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +19,7 @@ public class MainActivity extends AppCompatActivity{
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
     }
+
 
 
 }

@@ -97,6 +97,12 @@ public class cubeThreeStatisticFragment extends Fragment {
                 menuScroll.setX(-1000000);
             }
         });
+        cubeTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_cubeThreeStatisticFragment_to_statisticFragment);
+            }
+        });
 
 
 

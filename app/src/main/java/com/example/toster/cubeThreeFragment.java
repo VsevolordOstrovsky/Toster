@@ -1,8 +1,13 @@
 package com.example.toster;
 
+import static android.content.Context.WINDOW_SERVICE;
+
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -10,14 +15,21 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -70,7 +82,51 @@ public class cubeThreeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    private final int start = 0, stop = 1, refresh = 2;
 
+    private final StopWatch stopWatch = new StopWatch();
+    private TextView stopw;
+
+    Handler timerHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case start:
+                    if (stopWatch.isRunning())
+                        break;
+                    try {
+                        Thread.sleep(120);
+                    } catch (InterruptedException e) {
+                        Log.d("RRR",e.fillInStackTrace().toString());
+                    }
+                    stopWatch.start();
+                    timerHandler.sendEmptyMessage(refresh);
+                    break;
+                case refresh:
+                    stopw.setText(String.format("%s", format(stopWatch.getElapsedTime())));
+                    timerHandler.sendEmptyMessageDelayed(refresh, 1);
+                    break;
+                case stop:
+                    timerHandler.removeMessages(refresh);
+                    if (!stopWatch.isRunning())
+                        break;
+                    stopWatch.stop();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    private boolean justStopped = false, isFingerDown = false;
+    private long readyTime;
+
+    private String format(long milliseconds) {
+        String time = String.format("%1$TM:%1$TS:%1$TL", milliseconds);
+        return time.substring(0, time.length() - 1);
+    }
+    private static boolean clikcFlag = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,10 +136,13 @@ public class cubeThreeFragment extends Fragment {
 
 
 
+
+
         Button btnScramble = view.findViewById(R.id.buttonScramble);
         Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
         Button btnResult = view.findViewById(R.id.buttonResult);
+        Button btnTour = view.findViewById(R.id.tourneer);
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
 
 
@@ -95,31 +154,35 @@ public class cubeThreeFragment extends Fragment {
         Handler handler = new Handler();
         final int[] seconds = {0};
         cubeFragment cubeFragment = new cubeFragment();
+        MainActivity mainActivity = new MainActivity();
 
 
 
         ImageButton openMenu = view.findViewById(R.id.openMenu);
         ConstraintLayout cubeThreeLayout = view.findViewById(R.id.cubeTreeLayout);
         FrameLayout frameScramble = view.findViewById(R.id.frameLayoutScramble);
-        ImageView imageView3 = view.findViewById(R.id.imageView3);
+        stopw = view.findViewById(R.id.textView3);
 
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
         Bundle bundle = new Bundle();
 
         ImageGenThree imageGenThree = new ImageGenThree();
 
-        StopWatch stopWatch = new StopWatch();
-        View v = new MyCanvas(view.getContext());
+
+        View vin = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
         myCanvas.key_Cube = 3;
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
+
         imageGenThree.strok = "";
         ImageView iv = (ImageView) view.findViewById(R.id.imageView3);
-        v.draw(canvas);
+        vin.draw(canvas);
         iv.setImageBitmap(bitmap);
 
         btnScramble.setText(imageGenThree.strok);
+        clikcFlag = true;
+
 
 
 
@@ -146,10 +209,14 @@ public class cubeThreeFragment extends Fragment {
         btnScramble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageGenThree.strok = "";
-                v.draw(canvas);
-                iv.setImageBitmap(bitmap);
-                btnScramble.setText(imageGenThree.strok);
+                if(clikcFlag == true) {
+                    imageGenThree.strok = "";
+                    vin.draw(canvas);
+                    iv.setImageBitmap(bitmap);
+                    btnScramble.setText(imageGenThree.strok);
+                }
+
+
             }
         });
         btnResult.setOnClickListener(new View.OnClickListener() {
@@ -158,35 +225,50 @@ public class cubeThreeFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeThreeStatisticFragment);
             }
         });
-        cubeThreeLayout.setOnClickListener(new View.OnClickListener() {
-
-            int click = 0;
+        btnTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (click == 0){
-                    click = 1;
-                    imageView3.setX(100000);
-
-
-
-
-
-
-
-                }else{
-                    click = 0;
-                    int width = canvas.getWidth();
-                    imageView3.setX(0);
-
-
-
-                }
+                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_tourneerFirstFragment);
             }
         });
+        cubeThreeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isFingerDown) {
+
+                    isFingerDown = true;
+                    if (stopWatch.isRunning()) {
+                        timerHandler.sendEmptyMessage(stop);
+                        justStopped = true;
+
+                        imageGenThree.strok = "";
+                        vin.draw(canvas);
+                        iv.setImageBitmap(bitmap);
+                        btnScramble.setText(imageGenThree.strok);
+
+                        clikcFlag = true;
+
+                    }
+                    readyTime = System.currentTimeMillis();
+                    justStopped = false;
+                } else {
+
+                    isFingerDown = false;
+                    if (!justStopped && System.currentTimeMillis() - readyTime > 1000) {
+                        timerHandler.sendEmptyMessage(start);
+                        clikcFlag = false;
+                    }
+                }
+
+            }
+
+        });
+
 
 
 
 
         return view;
     }
+
 }

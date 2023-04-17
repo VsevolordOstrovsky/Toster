@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cubeTreeFragment">
+    app:startDestination="@id/tourneerFirstFragment">
 
     <fragment
         android:id="@+id/statisticFragment"
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_statisticFragment_to_cubeThreeStatisticFragment"
             app:destination="@id/cubeThreeStatisticFragment" />
+        <action
+            android:id="@+id/action_statisticFragment_to_tourneerFirstFragment"
+            app:destination="@id/tourneerFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/cubeFragment"
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_cubeFragment_to_cubeTreeFragment"
             app:destination="@id/cubeTreeFragment" />
+        <action
+            android:id="@+id/action_cubeFragment_to_tourneerFirstFragment"
+            app:destination="@id/tourneerFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/cubeTreeFragment"
@@ -40,6 +46,9 @@
         <action
             android:id="@+id/action_cubeTreeFragment_to_cubeFragment"
             app:destination="@id/cubeFragment" />
+        <action
+            android:id="@+id/action_cubeTreeFragment_to_tourneerFirstFragment"
+            app:destination="@id/tourneerFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/cubeThreeStatisticFragment"
@@ -51,6 +60,21 @@
             app:destination="@id/statisticFragment" />
         <action
             android:id="@+id/action_cubeThreeStatisticFragment_to_cubeTreeFragment"
+            app:destination="@id/cubeTreeFragment" />
+        <action
+            android:id="@+id/action_cubeThreeStatisticFragment_to_tourneerFirstFragment"
+            app:destination="@id/tourneerFirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourneerFirstFragment"
+        android:name="com.example.toster.tour.TourneerFirstFragment"
+        android:label="fragment_tourneer_first"
+        tools:layout="@layout/fragment_tourneer_first" >
+        <action
+            android:id="@+id/action_tourneerFirstFragment_to_cubeFragment"
+            app:destination="@id/cubeFragment" />
+        <action
+            android:id="@+id/action_tourneerFirstFragment_to_cubeTreeFragment"
             app:destination="@id/cubeTreeFragment" />
     </fragment>
 </navigation>

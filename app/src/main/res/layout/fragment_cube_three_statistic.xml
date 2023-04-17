@@ -129,6 +129,12 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0097A7"
                 android:text="3x3" />
+            <Button
+                android:id="@+id/tourneer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0097A7"
+                android:text="турнир" />
         </LinearLayout>
     </ScrollView>
 
