@@ -126,27 +126,16 @@
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toEndOf="@+id/colChel1" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="164dp"
-        android:layout_height="131dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginBottom="361dp"
-        android:text="Button"
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:layout_width="409dp"
+        android:layout_height="509dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#B3E5FC"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="408dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

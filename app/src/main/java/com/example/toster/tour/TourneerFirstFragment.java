@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.TestLooperManager;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -75,6 +78,10 @@ public class TourneerFirstFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tourneer_first, container, false);
 
+        final int[] flag_1 = {1};
+        final int[] flag_2 = new int[1];
+        final int[] flag_3 = new int[1];
+
 
 
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
@@ -84,11 +91,29 @@ public class TourneerFirstFragment extends Fragment {
         Button cubeThree = view.findViewById(R.id.cube_3);
         SeekBar seekBar = view.findViewById(R.id.seekBar);
         TextView mTextView = view.findViewById(R.id.colChel2);
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
+                (int)(200 * scale + 0.5f), (int) (45 * scale + 0.5f));
+        lParams.gravity = Gravity.CENTER_HORIZONTAL;
 
 
 
-        Button button = view.findViewById(R.id.button);
-        ConstraintLayout con = view.findViewById(R.id.con);
+        EditText editText_1 = new EditText(getContext());
+        editText_1.setText("Player1");
+        EditText editText_2 = new EditText(getContext());
+        editText_2.setText("Player2");
+        EditText editText_3 = new EditText(getContext());
+        editText_3.setText("Player3");
+        EditText editText_4 = new EditText(getContext());
+        editText_4.setText("Player4");
+
+
+
+        LinearLayout llMain;
+        llMain = (LinearLayout) view.findViewById(R.id.llMain);
+
+        llMain.addView(editText_1,lParams);
+        llMain.addView(editText_2,lParams);
 
 
         openMenu.setOnClickListener(new View.OnClickListener() {
@@ -130,28 +155,45 @@ public class TourneerFirstFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                System.out.println(seekBar.getProgress());
+                if(seekBar.getProgress() == 2 && flag_1[0] == 0){
+                    flag_2[0] = 0;
+                    llMain.removeView(editText_4);
+                    llMain.removeView(editText_3);
+                }
+                if(seekBar.getProgress() == 3 && flag_2[0] == 0){
+                    flag_2[0] = 1;
+                    flag_1[0] = 0;
+                    Log.i("RRR","crash");
+                    llMain.addView(editText_3,lParams);
+                }else{if(seekBar.getProgress() == 3 && flag_2[0] == 1){
+                    flag_2[0] = 1;
+                    flag_1[0] = 0;
+
+                    llMain.removeView(editText_4);
+                }}
+
+                if(seekBar.getProgress() == 4 && flag_2[0] == 1){
+                    flag_3[0] = 1;
+                    flag_1[0] = 0;
+                    llMain.addView(editText_4,lParams);
+                }else{
+                    if(seekBar.getProgress() == 4 && flag_2[0] == 0){
+                        flag_3[0] = 1;
+                        flag_1[0] = 0;
+                        flag_2[0] = 1;
+                        llMain.addView(editText_3,lParams);
+                        llMain.addView(editText_4,lParams);
+                    }
+                }
 
             }
         });
 
 
-        EditText editText = new EditText(getContext());
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        int pixelsWidth = (int) (200 * scale + 0.5f);
-        int pixelsHeight = (int) (40 * scale + 0.5f);
-        int pixelsWidthSc = (int) (100 * scale + 0.5f);
-        int pixelsHeightSc = (int) (408 * scale + 0.5f);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editText.setY(pixelsHeightSc);
-                editText.setX(pixelsWidthSc);
-                editText.setWidth(pixelsWidth);
-                editText.setHeight(pixelsHeight);
-                con.addView(editText);
-            }
-        });
+
+
 
 
 
