@@ -76,5 +76,17 @@
         <action
             android:id="@+id/action_tourneerFirstFragment_to_cubeTreeFragment"
             app:destination="@id/cubeTreeFragment" />
+        <action
+            android:id="@+id/action_tourneerFirstFragment_to_tourneerSecondFragment"
+            app:destination="@id/tourneerSecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourneerSecondFragment"
+        android:name="com.example.toster.tour.TourneerSecondFragment"
+        android:label="fragment_tourneer_second"
+        tools:layout="@layout/fragment_tourneer_second" >
+        <action
+            android:id="@+id/action_tourneerSecondFragment_to_tourneerFirstFragment"
+            app:destination="@id/tourneerFirstFragment" />
     </fragment>
 </navigation>

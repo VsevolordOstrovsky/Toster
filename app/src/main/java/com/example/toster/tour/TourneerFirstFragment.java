@@ -40,6 +40,13 @@ public class TourneerFirstFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private EditText editText_1;
+    private EditText editText_2;
+    private EditText editText_3;
+    private EditText editText_4;
+
+    public String s1,s2,s3,s4;
+
     public TourneerFirstFragment() {
         // Required empty public constructor
     }
@@ -97,15 +104,19 @@ public class TourneerFirstFragment extends Fragment {
         lParams.gravity = Gravity.CENTER_HORIZONTAL;
 
 
+        Button btnSecond = view.findViewById(R.id.btnSecond);
 
-        EditText editText_1 = new EditText(getContext());
+
+        editText_1 = new EditText(getContext());
         editText_1.setText("Player1");
-        EditText editText_2 = new EditText(getContext());
+        editText_2 = new EditText(getContext());
         editText_2.setText("Player2");
-        EditText editText_3 = new EditText(getContext());
+        editText_3 = new EditText(getContext());
         editText_3.setText("Player3");
-        EditText editText_4 = new EditText(getContext());
+        editText_4 = new EditText(getContext());
         editText_4.setText("Player4");
+
+
 
 
 
@@ -189,8 +200,32 @@ public class TourneerFirstFragment extends Fragment {
 
             }
         });
+        Bundle bundle = new Bundle();
+        btnSecond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (seekBar.getProgress()){
+                    case 2:
+                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
+                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
+                        break;
+                    case 3:
+                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
+                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
+                        bundle.putString("arg3", String.valueOf(editText_3.getText()));
+                        break;
+                    case 4:
+                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
+                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
+                        bundle.putString("arg3", String.valueOf(editText_3.getText()));
+                        bundle.putString("arg4", String.valueOf(editText_4.getText()));
+                }
 
 
+
+                Navigation.findNavController(view).navigate(R.id.action_tourneerFirstFragment_to_tourneerSecondFragment,bundle);
+            }
+        });
 
 
 
