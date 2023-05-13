@@ -13,7 +13,7 @@ public class ImageGenThree extends Generator{
             /*7*/   {" ", " ", " ", "Y", "Y", "Y", " ", " ", " ", " ", " ", " "},
             /*8*/   {" ", " ", " ", "Y", "Y", "Y", " ", " ", " ", " ", " ", " "}
     };
-    static String strok = "";
+    public static String strok = "";
     public static void scrambl(String g) {
         // UP block
         if (g == "U'") {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.os.TestLooperManager;
@@ -23,6 +24,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.toster.R;
+import com.example.toster.TourneerViewModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,13 +44,14 @@ public class TourneerFirstFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private EditText editText_1;
-    private EditText editText_2;
-    private EditText editText_3;
-    private EditText editText_4;
+
+    private static EditText editText_1;
+    private static EditText editText_2;
+    private static EditText editText_3;
+    private static EditText editText_4;
+    private static SeekBar seekBar;
+    Bundle bundle = new Bundle();
 
     public String s1,s2,s3,s4;
 
@@ -73,12 +81,13 @@ public class TourneerFirstFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
 
+
+    public static List<String> name = new ArrayList<>();
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,6 +98,8 @@ public class TourneerFirstFragment extends Fragment {
         final int[] flag_2 = new int[1];
         final int[] flag_3 = new int[1];
 
+        int flag;
+
 
 
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
@@ -96,7 +107,9 @@ public class TourneerFirstFragment extends Fragment {
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
         Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
-        SeekBar seekBar = view.findViewById(R.id.seekBar);
+        Button tourCube2 = view.findViewById(R.id.btn2);
+        Button tourCube3 = view.findViewById(R.id.btn3);
+        seekBar = view.findViewById(R.id.seekBar);
         TextView mTextView = view.findViewById(R.id.colChel2);
         final float scale = getContext().getResources().getDisplayMetrics().density;
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
@@ -104,7 +117,7 @@ public class TourneerFirstFragment extends Fragment {
         lParams.gravity = Gravity.CENTER_HORIZONTAL;
 
 
-        Button btnSecond = view.findViewById(R.id.btnSecond);
+//        Button btnSecond = view.findViewById(R.id.btnSecond);
 
 
         editText_1 = new EditText(getContext());
@@ -200,29 +213,24 @@ public class TourneerFirstFragment extends Fragment {
 
             }
         });
-        Bundle bundle = new Bundle();
-        btnSecond.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+        tourCube2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (seekBar.getProgress()){
-                    case 2:
-                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
-                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
-                        break;
-                    case 3:
-                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
-                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
-                        bundle.putString("arg3", String.valueOf(editText_3.getText()));
-                        break;
-                    case 4:
-                        bundle.putString("arg1", String.valueOf(editText_1.getText()));
-                        bundle.putString("arg2", String.valueOf(editText_2.getText()));
-                        bundle.putString("arg3", String.valueOf(editText_3.getText()));
-                        bundle.putString("arg4", String.valueOf(editText_4.getText()));
-                }
+                getSeek();
+                bundle.putInt("flag",2);
+                Navigation.findNavController(view).navigate(R.id.action_tourneerFirstFragment_to_tourneerSecondFragment,bundle);
+            }
+        });
 
-
-
+        tourCube3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSeek();
+                bundle.putInt("flag",3);
                 Navigation.findNavController(view).navigate(R.id.action_tourneerFirstFragment_to_tourneerSecondFragment,bundle);
             }
         });
@@ -234,5 +242,57 @@ public class TourneerFirstFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void getSeek(){
+
+        switch (seekBar.getProgress()){
+            case 2:
+                name.add(String.valueOf(editText_1.getText()));
+                name.add(String.valueOf(editText_2.getText()));
+                break;
+            case 3:
+                name.add(String.valueOf(editText_1.getText()));
+                name.add(String.valueOf(editText_2.getText()));
+                name.add(String.valueOf(editText_3.getText()));
+
+                break;
+            case 4:
+                name.add(String.valueOf(editText_1.getText()));
+                name.add(String.valueOf(editText_2.getText()));
+                name.add(String.valueOf(editText_3.getText()));
+                name.add(String.valueOf(editText_4.getText()));
+
+        }
+        // вызов view model
+        TourneerViewModel orderViewModel = new ViewModelProvider(requireActivity()).get(TourneerViewModel.class);
+        orderViewModel.set_users(generationRandom(name));
+        //   fragmentPickupBinding.setViewModel(orderViewModel);
+        //   fragmentPickupBinding.setLifecycleOwner(this);
+    }
+
+    private static List<String> generationRandom(List<String> name){
+        String[] list = new String[name.size()];
+        for(int v = 0; v < name.size();v++){
+            list[v] = name.get(v);
+        }
+        name.clear();
+        name = new ArrayList<>(Arrays.asList(list));
+        Collections.shuffle(name);
+
+        int g = name.size();
+        for(int asas = 0; asas < 2; asas++) {
+            for (int i = 0; i < g; i++) {
+                name.add(name.get(i));
+            }
+        }
+
+        return name;
+    }
+    static int random(int max, int min){
+
+        double x = (Math.random() * (max - min)) + min;
+        int i = (int) x;
+        return i;
     }
 }

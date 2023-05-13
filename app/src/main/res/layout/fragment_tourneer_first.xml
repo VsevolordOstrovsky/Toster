@@ -79,14 +79,6 @@
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toEndOf="@+id/colChel1" />
 
-    <Button
-        android:id="@+id/btnSecond"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="Далее"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <ScrollView
         android:id="@+id/menuScroll"
         android:layout_width="216dp"
@@ -144,6 +136,40 @@
                 android:text="@string/tour1" />
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#0288D1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/_2x2"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#0288D1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/_3x3"
+            android:textSize="24sp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
