@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#B3E5FC"
     android:orientation="vertical"
-
+    android:noHistory="true"
     android:screenOrientation="landscape"
     tools:context=".tour.TourneerFirstFragment">
 

@@ -8,6 +8,7 @@
     android:background="#B3E5FC"
     android:orientation="vertical"
     android:screenOrientation="landscape"
+    android:noHistory="true"
     tools:context=".tour.TourneerSecondFragment">
 
     <TextView
@@ -139,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:backgroundTint="#03A9F4"
-        android:text="Button"
+        android:text="Перейти к результатам"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

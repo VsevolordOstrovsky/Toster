@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.toster.GetResults;
 import com.example.toster.R;
 import com.example.toster.TourneerViewModel;
 
@@ -101,7 +102,8 @@ public class TourneerFirstFragment extends Fragment {
         int flag;
 
 
-
+        GetResults getResults = new GetResults();
+        getResults.map.clear();
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
         ImageButton openMenu = view.findViewById(R.id.openMenu);
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
@@ -245,6 +247,7 @@ public class TourneerFirstFragment extends Fragment {
     }
 
     private void getSeek(){
+        name.clear();
 
         switch (seekBar.getProgress()){
             case 2:
@@ -267,6 +270,7 @@ public class TourneerFirstFragment extends Fragment {
         // вызов view model
         TourneerViewModel orderViewModel = new ViewModelProvider(requireActivity()).get(TourneerViewModel.class);
         orderViewModel.set_users(generationRandom(name));
+
         //   fragmentPickupBinding.setViewModel(orderViewModel);
         //   fragmentPickupBinding.setLifecycleOwner(this);
     }
@@ -288,11 +292,5 @@ public class TourneerFirstFragment extends Fragment {
         }
 
         return name;
-    }
-    static int random(int max, int min){
-
-        double x = (Math.random() * (max - min)) + min;
-        int i = (int) x;
-        return i;
     }
 }

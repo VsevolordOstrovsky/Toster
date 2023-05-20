@@ -1,6 +1,8 @@
 package com.example.toster;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -23,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -74,6 +79,8 @@ public class cubeFragment extends Fragment {
         }
     }
 
+    private SharedPreferences shared;
+
     private final int start = 0, stop = 1, refresh = 2;
 
     private final StopWatch stopWatch = new StopWatch();
@@ -113,6 +120,7 @@ public class cubeFragment extends Fragment {
     };
     private boolean justStopped = false, isFingerDown = false;
     private long readyTime;
+    private final String save_2X2 = "save2X2";
 
     private String format(long milliseconds) {
         String time = String.format("%1$TM:%1$TS:%1$TL", milliseconds);
@@ -120,16 +128,24 @@ public class cubeFragment extends Fragment {
     }
 
 
-
+    private View view;
+    statisticFragment statisticFragment = new statisticFragment();
+    private TextView lastTime;
     private static boolean clickFlag = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_cube, container, false);
+
+        init();
+
+
 
         int key = 2;
 
 
-        View view = inflater.inflate(R.layout.fragment_cube, container, false);
+
+
 
 
 
@@ -161,10 +177,8 @@ public class cubeFragment extends Fragment {
         ImageGen imageGen = new ImageGen();
 
 
-        stopw = view.findViewById(R.id.stopwatch);
 
-
-
+       // File file = new File("notes2.txt");
 
 
         View vin = new MyCanvas(view.getContext());
@@ -180,7 +194,7 @@ public class cubeFragment extends Fragment {
 
         btnScramble.setText(imageGen.strok);
         clickFlag = true;
-
+        lastTime.setText(shared.getString(save_2X2,"00:00:00"));
 
 
 
@@ -201,6 +215,7 @@ public class cubeFragment extends Fragment {
         btnResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_statisticFragment,bundle);
 
@@ -231,29 +246,53 @@ public class cubeFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_tourneerFirstFragment);
             }
         });
+        try(FileWriter writer = new FileWriter("notes2.txt", true))
+        {
+            // запись всей строки
+            String text = "D L2 D2 B F2 L2 F' U2 B' U2 B2 L' R F' L2 D' F2 U2 R";
+            String fff = "00:15:89";
+            writer.write(text+"*"+fff);
+            writer.append("\n");
+            writer.flush();
+            writer.close();
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
 
         cubelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isFingerDown) {
                     isFingerDown = true;
+
                     if (stopWatch.isRunning()) {
+                        lastTime.setText(shared.getString(save_2X2,"00:00:00"));
+                        SharedPreferences.Editor edit = shared.edit();
+                        if (stopw.getText().toString() != "00:00:00"){
+                            edit.putString(save_2X2,stopw.getText().toString());
+                            edit.apply();
+                        }
                         timerHandler.sendEmptyMessage(stop);
                         justStopped = true;
                         clickFlag = true;
+
                         imageGen.strok = "";
                         vin.draw(canvas);
                         iv.setImageBitmap(bitmap);
                         btnScramble.setText(imageGen.strok);
 
 
+
                     }
                     readyTime = System.currentTimeMillis();
                     justStopped = false;
-                } else {
+                    } else {
                     isFingerDown = false;
                     if (!justStopped && System.currentTimeMillis() - readyTime > 1000) {
                         timerHandler.sendEmptyMessage(start);
+
                         clickFlag = false;
                     }
                 }
@@ -263,6 +302,12 @@ public class cubeFragment extends Fragment {
         });
 
         return view;
+    }
+    private void init(){
+        shared = getActivity().getSharedPreferences("Cube2X2", Context.MODE_PRIVATE);
+        stopw = view.findViewById(R.id.stopwatch);
+        lastTime = view.findViewById(R.id.lastTime);
+
     }
 
 

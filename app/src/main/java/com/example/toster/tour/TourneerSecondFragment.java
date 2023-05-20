@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.toster.GetResults;
 import com.example.toster.ImageGen;
 import com.example.toster.ImageGenThree;
 import com.example.toster.MyCanvas;
@@ -134,6 +135,7 @@ public class TourneerSecondFragment extends Fragment {
 
     private static ImageGen imageGen = new ImageGen();
     private static ImageGenThree imageGenThree = new ImageGenThree();
+    private static GetResults getResults = new GetResults();
     private static MyCanvas myCanvas;
     private static View vin;
     private static ImageView iv;
@@ -158,7 +160,9 @@ public class TourneerSecondFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("sdvkjnsijdkvcisb");
+                System.out.println(getResults.map.get("Player1"));
+                System.out.println(getResults.map.get("Player2"));
+                Navigation.findNavController(view).navigate(R.id.action_tourneerSecondFragment_to_tourneerThirdFragment);
             }
         });
 
@@ -207,6 +211,18 @@ public class TourneerSecondFragment extends Fragment {
 
 
 
+        orderViewModel.users.observe(getActivity(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+
+                System.out.println(strings.toString());
+
+            }
+        });
+
+
+
+
 
         vin = new MyCanvas(view.getContext());
         myCanvas = new MyCanvas(view.getContext());
@@ -247,16 +263,23 @@ public class TourneerSecondFragment extends Fragment {
         cubeThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_cubeTreeFragment);
+                Navigation.findNavController(view).navigate(R.id.action_tourneerSecondFragment_to_cubeTreeFragment);
 
+            }
+        });
+        cubeTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_tourneerSecondFragment_to_cubeFragment);
             }
         });
         btnTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_tourneerFirstFragment);
+                Navigation.findNavController(view).navigate(R.id.action_tourneerSecondFragment_to_tourneerFirstFragment);
             }
         });
+
 
 
         cubelayout.setOnClickListener(new View.OnClickListener() {
@@ -265,23 +288,22 @@ public class TourneerSecondFragment extends Fragment {
                 if(!isFingerDown) {
                     isFingerDown = true;
                     if (stopWatch.isRunning()) {
+
                         timerHandler.sendEmptyMessage(stop);
                         justStopped = true;
                         clickFlag = true;
-//                        imageGen.strok = "";
-//                        vin.draw(canvas);
-//                        iv.setImageBitmap(bitmap);
-//                        btnScramble.setText(imageGen.strok);
+
                         collektionsMetod(flag);
                         final int[] k = {0};
                         orderViewModel.users.observe(getActivity(), new Observer<List<String>>() {
+                            List<String> list;
                             @Override
                             public void onChanged(List<String> strings) {
-                                System.out.println(Arrays.toString(strings.toArray()));
+                                list = strings;
                                 int a = 0;
                                 if(strings.size() > 0) {
-                                    textViewCubeName.setText(strings.get(a));
-                                    strings.remove(a);
+                                    textViewCubeName.setText(list.get(a));
+                                    list.remove(a);
                                 }else{
                                     iv.setX(1000000000);
                                     btnScramble.setX(1000000000);
@@ -291,7 +313,8 @@ public class TourneerSecondFragment extends Fragment {
 
                             }
                         });
-
+                        // вызов GetResults
+                        getResults.getRes(textViewCubeName.getText().toString(), stopw.getText().toString());
 
 
                     }
@@ -301,7 +324,7 @@ public class TourneerSecondFragment extends Fragment {
                     isFingerDown = false;
                     if (!justStopped && System.currentTimeMillis() - readyTime > 1000) {
                         timerHandler.sendEmptyMessage(start);
-
+                        System.out.println("1");
                         clickFlag = false;
                     }
                 }
@@ -320,6 +343,8 @@ public class TourneerSecondFragment extends Fragment {
 
         return view;
     }
+    
+    
 
     private static void collektionsMetod(int flag){
         switch (flag){

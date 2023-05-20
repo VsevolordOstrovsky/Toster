@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B3E5FC"
-    android:screenOrientation="landscape"
     android:orientation="vertical"
+    android:screenOrientation="landscape"
     tools:context=".statisticFragment">
 
     <LinearLayout
@@ -70,6 +70,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollResults"
         android:layout_width="match_parent"
         android:layout_height="618dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -77,6 +78,7 @@
         tools:layout_editor_absoluteX="1dp">
 
         <LinearLayout
+            android:id="@+id/linnerRes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
@@ -130,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#0097A7"
                 android:text="3x3" />
+
             <Button
                 android:id="@+id/tourneer"
                 android:layout_width="match_parent"
