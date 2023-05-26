@@ -7,7 +7,7 @@
     android:background="#B3E5FC"
     android:screenOrientation="landscape"
     android:orientation="vertical"
-    tools:context=".cubeThreeStatisticFragment">
+    tools:context=".CubeThreeStatisticFragment">
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:backgroundTint="#FFFFFF"
             android:src="@drawable/menu" />
 
         <TextView

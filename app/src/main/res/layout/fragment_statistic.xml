@@ -8,7 +8,7 @@
     android:background="#B3E5FC"
     android:orientation="vertical"
     android:screenOrientation="landscape"
-    tools:context=".statisticFragment">
+    tools:context=".StatisticFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:backgroundTint="#FFFFFF"
             android:src="@drawable/menu" />
 
         <TextView

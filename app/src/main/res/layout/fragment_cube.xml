@@ -8,7 +8,7 @@
     android:background="#B3E5FC"
     android:screenOrientation="landscape"
     android:orientation="vertical"
-    tools:context=".cubeFragment">
+    tools:context=".CubeFragment">
 
     <TextView
         android:id="@+id/stopwatch"
@@ -75,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:backgroundTint="#FFFFFF"
             android:src="@drawable/menu" />
 
         <TextView
@@ -106,6 +107,17 @@
             android:textSize="24sp" />
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/lastTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="#FFFFFF"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:id="@+id/menuScroll"
@@ -163,16 +175,5 @@
                 android:text="Турнир" />
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/lastTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:shadowColor="#FFFFFF"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

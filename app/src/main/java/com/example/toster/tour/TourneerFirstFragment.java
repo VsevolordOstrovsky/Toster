@@ -53,6 +53,7 @@ public class TourneerFirstFragment extends Fragment {
     private static EditText editText_4;
     private static SeekBar seekBar;
     Bundle bundle = new Bundle();
+    Bundle bundle1 = new Bundle();
 
     public String s1,s2,s3,s4;
 
@@ -103,7 +104,7 @@ public class TourneerFirstFragment extends Fragment {
 
 
         GetResults getResults = new GetResults();
-        getResults.map.clear();
+
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
         ImageButton openMenu = view.findViewById(R.id.openMenu);
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
@@ -137,9 +138,49 @@ public class TourneerFirstFragment extends Fragment {
 
         LinearLayout llMain;
         llMain = (LinearLayout) view.findViewById(R.id.llMain);
+        if(bundle1.get("sss") != null){
+            System.out.println("---------------------"+(Integer) bundle1.get("sss"));
+            seekBar.setProgress((Integer) bundle1.get("sss"));
+            mTextView.setText(bundle1.get("sss").toString());
+            llMain.addView(editText_1,lParams);
+            llMain.addView(editText_2,lParams);
+            if(seekBar.getProgress() == 2 && flag_1[0] == 0){
+                flag_2[0] = 0;
+                llMain.removeView(editText_4);
+                llMain.removeView(editText_3);
+            }
+            if(seekBar.getProgress() == 3 && flag_2[0] == 0){
+                flag_2[0] = 1;
+                flag_1[0] = 0;
+                Log.i("RRR","crash");
+                llMain.addView(editText_3,lParams);
+            }else{if(seekBar.getProgress() == 3 && flag_2[0] == 1){
+                flag_2[0] = 1;
+                flag_1[0] = 0;
 
-        llMain.addView(editText_1,lParams);
-        llMain.addView(editText_2,lParams);
+                llMain.removeView(editText_4);
+            }}
+
+            if(seekBar.getProgress() == 4 && flag_2[0] == 1){
+                flag_3[0] = 1;
+                flag_1[0] = 0;
+                llMain.addView(editText_4,lParams);
+            }else{
+                if(seekBar.getProgress() == 4 && flag_2[0] == 0){
+                    flag_3[0] = 1;
+                    flag_1[0] = 0;
+                    flag_2[0] = 1;
+                    llMain.addView(editText_3,lParams);
+                    llMain.addView(editText_4,lParams);
+                }
+            }
+
+        }else{
+            llMain.addView(editText_1,lParams);
+            llMain.addView(editText_2,lParams);
+        }
+        System.out.println("SeekBar Progress: "+ seekBar.getProgress());
+
 
 
         openMenu.setOnClickListener(new View.OnClickListener() {
@@ -178,36 +219,40 @@ public class TourneerFirstFragment extends Fragment {
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
+            int f = 0;
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                System.out.println(seekBar.getProgress());
+
                 if(seekBar.getProgress() == 2 && flag_1[0] == 0){
                     flag_2[0] = 0;
                     llMain.removeView(editText_4);
                     llMain.removeView(editText_3);
+                    f = 0;
                 }
                 if(seekBar.getProgress() == 3 && flag_2[0] == 0){
                     flag_2[0] = 1;
                     flag_1[0] = 0;
-                    Log.i("RRR","crash");
+                    f = 0;
                     llMain.addView(editText_3,lParams);
                 }else{if(seekBar.getProgress() == 3 && flag_2[0] == 1){
                     flag_2[0] = 1;
                     flag_1[0] = 0;
-
+                    f = 0;
                     llMain.removeView(editText_4);
                 }}
 
-                if(seekBar.getProgress() == 4 && flag_2[0] == 1){
+                if(seekBar.getProgress() == 4 && flag_2[0] == 1 && f == 0){
                     flag_3[0] = 1;
                     flag_1[0] = 0;
+                    f = 1;
+
                     llMain.addView(editText_4,lParams);
                 }else{
-                    if(seekBar.getProgress() == 4 && flag_2[0] == 0){
+                    if(seekBar.getProgress() == 4 && flag_2[0] == 0 && f == 0){
                         flag_3[0] = 1;
                         flag_1[0] = 0;
                         flag_2[0] = 1;
+                        f = 1;
                         llMain.addView(editText_3,lParams);
                         llMain.addView(editText_4,lParams);
                     }
@@ -224,6 +269,7 @@ public class TourneerFirstFragment extends Fragment {
             public void onClick(View view) {
                 getSeek();
                 bundle.putInt("flag",2);
+                bundle1.putInt("sss",seekBar.getProgress());
                 Navigation.findNavController(view).navigate(R.id.action_tourneerFirstFragment_to_tourneerSecondFragment,bundle);
             }
         });
@@ -233,9 +279,12 @@ public class TourneerFirstFragment extends Fragment {
             public void onClick(View view) {
                 getSeek();
                 bundle.putInt("flag",3);
+                bundle1.putInt("sss",seekBar.getProgress());
                 Navigation.findNavController(view).navigate(R.id.action_tourneerFirstFragment_to_tourneerSecondFragment,bundle);
             }
         });
+
+
 
 
 
@@ -247,7 +296,7 @@ public class TourneerFirstFragment extends Fragment {
     }
 
     private void getSeek(){
-        name.clear();
+
 
         switch (seekBar.getProgress()){
             case 2:
@@ -267,9 +316,13 @@ public class TourneerFirstFragment extends Fragment {
                 name.add(String.valueOf(editText_4.getText()));
 
         }
+        System.out.println(name.toString());
         // вызов view model
         TourneerViewModel orderViewModel = new ViewModelProvider(requireActivity()).get(TourneerViewModel.class);
-        orderViewModel.set_users(generationRandom(name));
+        List<String> ddd = generationRandom(name);
+        System.out.println(ddd.toString());
+        orderViewModel.set_users(ddd);
+
 
         //   fragmentPickupBinding.setViewModel(orderViewModel);
         //   fragmentPickupBinding.setLifecycleOwner(this);
@@ -293,4 +346,7 @@ public class TourneerFirstFragment extends Fragment {
 
         return name;
     }
+
+
+
 }

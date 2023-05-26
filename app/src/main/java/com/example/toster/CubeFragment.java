@@ -1,13 +1,9 @@
 package com.example.toster;
 
-import static android.content.Context.WINDOW_SERVICE;
-
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,31 +13,26 @@ import androidx.navigation.Navigation;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link cubeThreeFragment#newInstance} factory method to
+ * Use the {@link CubeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class cubeThreeFragment extends Fragment {
+public class CubeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +43,7 @@ public class cubeThreeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public cubeThreeFragment() {
+    public CubeFragment() {
         // Required empty public constructor
     }
 
@@ -62,11 +53,11 @@ public class cubeThreeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment cubeTreeFragment.
+     * @return A new instance of fragment cubeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static cubeThreeFragment newInstance(String param1, String param2) {
-        cubeThreeFragment fragment = new cubeThreeFragment();
+    public static CubeFragment newInstance(String param1, String param2) {
+        CubeFragment fragment = new CubeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,6 +73,9 @@ public class cubeThreeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
+    private SharedPreferences shared;
+
     private final int start = 0, stop = 1, refresh = 2;
 
     private final StopWatch stopWatch = new StopWatch();
@@ -121,29 +115,44 @@ public class cubeThreeFragment extends Fragment {
     };
     private boolean justStopped = false, isFingerDown = false;
     private long readyTime;
+    private final String save_2X2 = "save2X2";
 
     private String format(long milliseconds) {
         String time = String.format("%1$TM:%1$TS:%1$TL", milliseconds);
         return time.substring(0, time.length() - 1);
     }
-    private static boolean clikcFlag = true;
+
+
+    private View view;
+    StatisticFragment statisticFragment = new StatisticFragment();
+    private TextView lastTime;
+    private static boolean clickFlag = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cube_three, container, false);
+        view = inflater.inflate(R.layout.fragment_cube, container, false);
 
-        int key = 3;
+        init();
+        lastTime.setText(shared.getString(save_2X2,"Последнее время\n00:00:00"));
+
+
+        int key = 2;
+
+
+
+
 
 
 
 
 
         Button btnScramble = view.findViewById(R.id.buttonScramble);
+        Button btnResult = view.findViewById(R.id.buttonResult);
         Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
-        Button btnResult = view.findViewById(R.id.buttonResult);
         Button btnTour = view.findViewById(R.id.tourneer);
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
+        ConstraintLayout cubelayout = view.findViewById(R.id.cubelayout);
 
 
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -151,112 +160,123 @@ public class cubeThreeFragment extends Fragment {
         final int[] cklic = {0};
 
 
-        Handler handler = new Handler();
-        final int[] seconds = {0};
-        cubeFragment cubeFragment = new cubeFragment();
-        MainActivity mainActivity = new MainActivity();
+
 
 
 
         ImageButton openMenu = view.findViewById(R.id.openMenu);
-        ConstraintLayout cubeThreeLayout = view.findViewById(R.id.cubeTreeLayout);
-        FrameLayout frameScramble = view.findViewById(R.id.frameLayoutScramble);
-        stopw = view.findViewById(R.id.textView3);
 
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
         Bundle bundle = new Bundle();
 
-        ImageGenThree imageGenThree = new ImageGenThree();
+        ImageGen imageGen = new ImageGen();
+
+
+
+       // File file = new File("notes2.txt");
 
 
         View vin = new MyCanvas(view.getContext());
         MyCanvas myCanvas = new MyCanvas(view.getContext());
-        myCanvas.key_Cube = 3;
+        myCanvas.key_Cube = 2;
         Bitmap bitmap = Bitmap.createBitmap(160/*width*/, 120/*height*/, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-
-        imageGenThree.strok = "";
-        ImageView iv = (ImageView) view.findViewById(R.id.imageView3);
+        imageGen.strok = "";
+        ImageView iv = (ImageView) view.findViewById(R.id.imageView2);
         vin.draw(canvas);
         iv.setImageBitmap(bitmap);
 
-        btnScramble.setText(imageGenThree.strok);
-        clikcFlag = true;
+
+        btnScramble.setText(imageGen.strok);
+        clickFlag = true;
 
 
 
 
+
+        btnScramble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(clickFlag == true) {
+                    imageGen.strok = "";
+                    vin.draw(canvas);
+                    iv.setImageBitmap(bitmap);
+                    btnScramble.setText(imageGen.strok);
+                }
+
+            }
+        });
+
+        btnResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_statisticFragment,bundle);
+
+            }
+        });
         openMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 menuScroll.setX(0);
             }
         });
-
         closeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                menuScroll.setX(-10000000);
+                menuScroll.setX(-100000);
             }
         });
-        cubeTwo.setOnClickListener(new View.OnClickListener() {
+        cubeThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeFragment);
-            }
-        });
+                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_cubeTreeFragment);
 
-        btnScramble.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(clikcFlag == true) {
-                    imageGenThree.strok = "";
-                    vin.draw(canvas);
-                    iv.setImageBitmap(bitmap);
-                    btnScramble.setText(imageGenThree.strok);
-                }
-
-
-            }
-        });
-        btnResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_cubeThreeStatisticFragment);
             }
         });
         btnTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_cubeTreeFragment_to_tourneerFirstFragment);
+                Navigation.findNavController(view).navigate(R.id.action_cubeFragment_to_tourneerFirstFragment);
             }
         });
-        cubeThreeLayout.setOnClickListener(new View.OnClickListener() {
+
+
+        cubelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isFingerDown) {
-
                     isFingerDown = true;
+
                     if (stopWatch.isRunning()) {
+                        lastTime.setText(shared.getString(save_2X2,"Последнее время\n00:00:00"));
+                        SharedPreferences.Editor edit = shared.edit();
+                        if (stopw.getText().toString() != "Последнее время\n00:00:00"){
+                            edit.putString(save_2X2,"Последнее время\n"+stopw.getText().toString());
+                            edit.apply();
+                        }
+
                         timerHandler.sendEmptyMessage(stop);
                         justStopped = true;
+                        clickFlag = true;
 
-                        imageGenThree.strok = "";
+                        imageGen.strok = "";
                         vin.draw(canvas);
                         iv.setImageBitmap(bitmap);
-                        btnScramble.setText(imageGenThree.strok);
+                        btnScramble.setText(imageGen.strok);
 
-                        clikcFlag = true;
+
 
                     }
                     readyTime = System.currentTimeMillis();
                     justStopped = false;
-                } else {
-
+                    } else {
                     isFingerDown = false;
                     if (!justStopped && System.currentTimeMillis() - readyTime > 1000) {
                         timerHandler.sendEmptyMessage(start);
-                        clikcFlag = false;
+
+                        clickFlag = false;
                     }
                 }
 
@@ -264,11 +284,15 @@ public class cubeThreeFragment extends Fragment {
 
         });
 
-
-
-
-
         return view;
     }
+    private void init(){
+        shared = getActivity().getSharedPreferences("Cube2X2", Context.MODE_PRIVATE);
+        stopw = view.findViewById(R.id.stopwatch);
+        lastTime = view.findViewById(R.id.lastTime);
+
+    }
+
+
 
 }

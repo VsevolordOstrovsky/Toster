@@ -8,8 +8,19 @@
     android:background="#B3E5FC"
     android:orientation="vertical"
     android:screenOrientation="landscape"
-    tools:context=".cubeThreeFragment"
+    tools:context=".CubeThreeFragment"
     tools:ignore="InvalidId">
+
+    <TextView
+        android:id="@+id/lastTime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="#FFFFFF"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"

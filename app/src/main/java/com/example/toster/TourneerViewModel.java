@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.Arrays;
 import java.util.List;
 
-public class TourneerViewModel extends ViewModel {
+    public class TourneerViewModel extends ViewModel {
     private MutableLiveData<List<String>> _users = new MutableLiveData<>(Arrays.asList());// для Model
     public LiveData<List<String>> users  = _users;
 

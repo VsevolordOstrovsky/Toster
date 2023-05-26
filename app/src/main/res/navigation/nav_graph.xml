@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.example.toster.statisticFragment"
+        android:name="com.example.toster.StatisticFragment"
         android:label="fragment_statistic"
         tools:layout="@layout/fragment_statistic" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/cubeFragment"
-        android:name="com.example.toster.cubeFragment"
+        android:name="com.example.toster.CubeFragment"
         android:label="fragment_cube"
         tools:layout="@layout/fragment_cube" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/cubeTreeFragment"
-        android:name="com.example.toster.cubeThreeFragment"
+        android:name="com.example.toster.CubeThreeFragment"
         android:label="fragment_cube_tree"
         tools:layout="@layout/fragment_cube_three" >
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/cubeThreeStatisticFragment"
-        android:name="com.example.toster.cubeThreeStatisticFragment"
+        android:name="com.example.toster.CubeThreeStatisticFragment"
         android:label="fragment_cube_three_statistic"
         tools:layout="@layout/fragment_cube_three_statistic" >
         <action
@@ -103,6 +103,12 @@
         <action
             android:id="@+id/action_tourneerSecondFragment_to_tourneerThirdFragment"
             app:destination="@id/tourneerThirdFragment" />
+        <action
+            android:id="@+id/action_tourneerSecondFragment_to_tourneerFirstFragment2"
+            app:destination="@id/tourneerFirstFragment" />
+        <action
+            android:id="@+id/action_tourneerSecondFragment_to_tourneerFirstFragment3"
+            app:destination="@id/tourneerFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourneerThirdFragment"

@@ -10,18 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link statisticFragment#newInstance} factory method to
+ * Use the {@link CubeThreeStatisticFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class statisticFragment extends Fragment {
+public class CubeThreeStatisticFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +28,7 @@ public class statisticFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public statisticFragment() {
+    public CubeThreeStatisticFragment() {
         // Required empty public constructor
     }
 
@@ -42,11 +38,11 @@ public class statisticFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment statisticFragment.
+     * @return A new instance of fragment cubeThreeStatisticFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static statisticFragment newInstance(String param1, String param2) {
-        statisticFragment fragment = new statisticFragment();
+    public static CubeThreeStatisticFragment newInstance(String param1, String param2) {
+        CubeThreeStatisticFragment fragment = new CubeThreeStatisticFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,19 +58,17 @@ public class statisticFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    public static TextView ttt;
-    private LinearLayout layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_statistic, container, false);
+        View view = inflater.inflate(R.layout.fragment_cube_three_statistic, container, false);
+
         Button btnStopWatch = view.findViewById(R.id.buttonStopWathch);
+        Button btnResult = view.findViewById(R.id.buttonResult);
+        Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
-        Button results = view.findViewById(R.id.buttonResult);
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
-        layout = view.findViewById(R.id.linnerRes);
-
-
 
 
         ImageButton openMenu = view.findViewById(R.id.openMenu);
@@ -82,17 +76,13 @@ public class statisticFragment extends Fragment {
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
         Bundle bundle = new Bundle();
 
-
-
-
-
         btnStopWatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 ImageGen imageGen = new ImageGen();
                 imageGen.strok = "";
-                Navigation.findNavController(view).navigate(R.id.action_statisticFragment_to_cubeFragment,bundle);
+                Navigation.findNavController(view).navigate(R.id.action_cubeThreeStatisticFragment_to_cubeTreeFragment,bundle);
             }
         });
         openMenu.setOnClickListener(new View.OnClickListener() {
@@ -107,28 +97,15 @@ public class statisticFragment extends Fragment {
                 menuScroll.setX(-1000000);
             }
         });
-        cubeThree.setOnClickListener(new View.OnClickListener() {
+        cubeTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_statisticFragment_to_cubeThreeStatisticFragment);
+                Navigation.findNavController(view).navigate(R.id.action_cubeThreeStatisticFragment_to_statisticFragment);
             }
         });
-        results.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create("SSsser");
-            }
-        });
-
 
 
 
         return view;
-    }
-    private void create(String text){
-        TextView dynamicTextView = new TextView(getContext());
-        dynamicTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        dynamicTextView.setText(text);
-        layout.addView(dynamicTextView);
     }
 }

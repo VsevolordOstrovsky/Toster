@@ -14,9 +14,10 @@ public class MyCanvas extends View{
 
     private int width = 160;
     private int width_Rect = 8;
-    public int height = 120;
-    public int height_Rect = 6;
-    public int[] color = {/*orange*/Color.argb(255,255,165,0),Color.GREEN,Color.RED,Color.BLUE,Color.WHITE,Color.YELLOW};
+    private int height = 120;
+    private int height_Rect = 6;
+    private int[] color = {/*orange*/Color.argb(255,255,165,0),
+            Color.GREEN,Color.RED,Color.BLUE,Color.WHITE,Color.YELLOW};
     int specColor = Color.argb(0,0,0,0);
     public static int key_Cube = 0;
     // control cube rotation

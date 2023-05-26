@@ -1,18 +1,33 @@
 package com.example.toster.tour;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.example.toster.GetResults;
 import com.example.toster.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +75,8 @@ public class TourneerThirdFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    GetResults getResults = new GetResults();
+    LinearLayout layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,13 +84,16 @@ public class TourneerThirdFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tourneer_third, container, false);
 
 
-
+        layout = view.findViewById(R.id.frame);
+        layout.setGravity(Gravity.CENTER | Gravity.TOP);
         Button cubeTwo = view.findViewById(R.id.cube_2);
         Button cubeThree = view.findViewById(R.id.cube_3);
         Button tourneerCube = view.findViewById(R.id.tourneer);
         ImageButton closeMenu = view.findViewById(R.id.closeMenu);
         ImageButton openMenu = view.findViewById(R.id.openMenu);
         ScrollView menuScroll = view.findViewById(R.id.menuScroll);
+
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(getResults.map.entrySet());
 
         openMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +113,12 @@ public class TourneerThirdFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_tourneerThirdFragment_to_cubeFragment);
             }
         });
+        cubeThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_tourneerThirdFragment_to_cubeTreeFragment);
+            }
+        });
         tourneerCube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,9 +126,39 @@ public class TourneerThirdFragment extends Fragment {
             }
         });
 
+        int counter = 0;
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+
+
+        for (Map.Entry<String, Integer> entry : list) {
+            map.put(entry.getKey(), entry.getValue());
+        }
+
+        for (Map.Entry<String, Integer> pair : map.entrySet()) {
+            counter++;
+            create(String.format("%s. %s",counter,getResults.sredPer(pair.getKey(),pair.getValue())));
+        }
+
+
+
 
 
 
         return view;
+    }
+    private void create(String text){
+        TextView dynamicTextView = new TextView(getContext());
+
+        dynamicTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        dynamicTextView.setTextSize(32);
+        dynamicTextView.setTextColor(Color.WHITE);
+        dynamicTextView.setText(text);
+        layout.addView(dynamicTextView);
     }
 }

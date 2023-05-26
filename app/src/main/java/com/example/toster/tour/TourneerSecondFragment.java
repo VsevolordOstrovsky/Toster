@@ -154,14 +154,14 @@ public class TourneerSecondFragment extends Fragment {
         ArrayList<String> plaers_queue = new ArrayList<>();
 
         int flag = getArguments().getInt("flag");
-
+        int seek = getArguments().getInt("Seek");
         Button btnNext = view.findViewById(R.id.nextButton);
         btnNext.setX(1000000000);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(getResults.map.get("Player1"));
-                System.out.println(getResults.map.get("Player2"));
+//                System.out.println(getResults.map.get("Player1"));
+//                System.out.println(getResults.map.get("Player2"));
                 Navigation.findNavController(view).navigate(R.id.action_tourneerSecondFragment_to_tourneerThirdFragment);
             }
         });
@@ -169,10 +169,11 @@ public class TourneerSecondFragment extends Fragment {
         orderViewModel.users.observe(getActivity(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
-                int a = random(strings.size(),0);
-                textViewCubeName.setText(strings.get(a));
-                plaers_queue.add(strings.get(a));
-                strings.remove(a);
+
+                    int a = 0;
+                    textViewCubeName.setText(strings.get(a));
+                    plaers_queue.add(strings.get(a));
+                    strings.remove(a);
 
             }
         });
@@ -207,22 +208,6 @@ public class TourneerSecondFragment extends Fragment {
 
 
         stopw = view.findViewById(R.id.stopwatch3);
-
-
-
-
-        orderViewModel.users.observe(getActivity(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-
-                System.out.println(strings.toString());
-
-            }
-        });
-
-
-
-
 
         vin = new MyCanvas(view.getContext());
         myCanvas = new MyCanvas(view.getContext());
@@ -295,15 +280,17 @@ public class TourneerSecondFragment extends Fragment {
 
                         collektionsMetod(flag);
                         final int[] k = {0};
+                        System.out.println(textViewCubeName.getText().toString()+" "+stopw.getText().toString());;
+                        getResults.getRes(textViewCubeName.getText().toString(), stopw.getText().toString());
                         orderViewModel.users.observe(getActivity(), new Observer<List<String>>() {
                             List<String> list;
                             @Override
                             public void onChanged(List<String> strings) {
-                                list = strings;
+
                                 int a = 0;
                                 if(strings.size() > 0) {
-                                    textViewCubeName.setText(list.get(a));
-                                    list.remove(a);
+                                    textViewCubeName.setText(strings.get(a));
+                                    strings.remove(a);
                                 }else{
                                     iv.setX(1000000000);
                                     btnScramble.setX(1000000000);
@@ -314,7 +301,7 @@ public class TourneerSecondFragment extends Fragment {
                             }
                         });
                         // вызов GetResults
-                        getResults.getRes(textViewCubeName.getText().toString(), stopw.getText().toString());
+
 
 
                     }
